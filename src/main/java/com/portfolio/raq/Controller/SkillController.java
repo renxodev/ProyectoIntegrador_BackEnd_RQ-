@@ -41,7 +41,7 @@ public class SkillController {
         return impskillService.list();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody dtoSkill dtoskill) {
         if (StringUtils.isBlank(dtoskill.getNombre())) {
