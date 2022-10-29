@@ -14,6 +14,7 @@ import com.portfolio.raq.Security.Jwt.JwtProvider;
 import com.portfolio.raq.Security.Service.RolService;
 import com.portfolio.raq.Security.Service.UsuarioService;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin 
+@CrossOrigin (origins = "https://portfoliowebrenzoq.web.app/")
 public class AuthController {
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -93,5 +95,11 @@ public class AuthController {
         JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
         
         return new ResponseEntity(jwtDto, HttpStatus.OK);
+    }
+    
+    @GetMapping ("/list")
+    public ResponseEntity<List<Usuario>> list(){
+        List<Usuario> list = usuarioService.list();
+        return new ResponseEntity(list, HttpStatus.OK);
     }
 }
