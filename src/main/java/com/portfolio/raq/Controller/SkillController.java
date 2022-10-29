@@ -42,18 +42,19 @@ public class SkillController {
     }
 
     
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody dtoSkill dtoskill) {
-        if (StringUtils.isBlank(dtoskill.getNombre())) {
+     @PostMapping("/create")
+     public ResponseEntity<?> create(@RequestBody dtoSkill dtoskill){
+        if(StringUtils.isBlank(dtoskill.getNombre())){
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         }
-        if (impskillService.existsByNombre(dtoskill.getNombre())) {
-            return new ResponseEntity(new Mensaje("Esa skill ya existe"), HttpStatus.BAD_REQUEST);
+        if (impskillService.existsByNombre(dtoskill.getNombre())){
+            return new ResponseEntity(new Mensaje("Ese nombre ya existe"), HttpStatus.BAD_REQUEST);
         }
-        Skill skill = new Skill(dtoskill.getNombre(), dtoskill.getPorcentaje(), dtoskill.getImg());
+        Skill skill = new Skill(
+        dtoskill.getNombre(), dtoskill.getPorcentaje(), dtoskill.getImg()
+        );
         impskillService.save(skill);
-
-        return new ResponseEntity(new Mensaje("Skill agregada"), HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Skill creada"), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
